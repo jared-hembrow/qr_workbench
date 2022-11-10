@@ -1,0 +1,29 @@
+@import "../styles/color.scss";
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+}
+.column-left {
+    width: 25vw;
+    padding: 0.5vw;
+
+    // display positions
+    display: flex;
+    flex-direction: column;
+}
+.column-left-row-top {
+    height: 23vh;
+    // border: 2px solid $corn-flower-blue;
+}
+.column-left-row-bottom {
+    height: 70vh;
+    // border: 2px solid $corn-flower-blue;
+}
+.column-right {
+    width: 75vw;
+    padding: 0.5vw;
+    // border: 2px solid $corn-flower-blue;
+}
