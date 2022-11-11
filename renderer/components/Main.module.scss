@@ -15,15 +15,14 @@
     flex-direction: column;
 }
 .column-left-row-top {
-    height: 23vh;
-    // border: 2px solid $corn-flower-blue;
+    height: 23%;
 }
 .column-left-row-bottom {
-    height: 70vh;
-    // border: 2px solid $corn-flower-blue;
+    height: 70%;
 }
 .column-right {
-    width: 75vw;
+    height: 95vh;
+    width: 70vw;
+    margin-left: 10px;
     padding: 0.5vw;
-    // border: 2px solid $corn-flower-blue;
 }

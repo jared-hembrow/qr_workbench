@@ -1,16 +1,19 @@
-import React, { useState } from "react";
-import QRCode from "react-qr-code";
-import { CTXProvider } from "./CTX";
+import React, { useContext, useEffect } from "react";
+import CTX, { CTXProvider } from "./CTX";
 import Input from "./Input";
 import List from "./List";
+import Display from "./Display";
 // style
 import style from "./Main.module.scss";
 
-type Props = {};
+const MainComponent = () => {
+	const { dispatch } = useContext(CTX);
 
-const MainComponent = (props: Props) => {
-	const [value, setValue] = useState<string>("");
-	const [list, setList] = useState<string[]>([]);
+	useEffect(() => {
+		console.log("init");
+		dispatch({ type: "INIT_APP" });
+	}, []);
+
 	return (
 		<div className={style["container"]}>
 			<div className={style["column-left"]}>
@@ -22,15 +25,15 @@ const MainComponent = (props: Props) => {
 				</div>
 			</div>
 			<div className={style["column-right"]}>
-				<QRCode value={value} />
+				<Display />
 			</div>
 		</div>
 	);
 };
-const Main = (props: Props) => {
+const Main = () => {
 	return (
 		<CTXProvider>
-			<MainComponent {...props} />
+			<MainComponent />
 		</CTXProvider>
 	);
 };
