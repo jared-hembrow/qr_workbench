@@ -1,6 +1,6 @@
 # qr_workbench
 
-An app that you can generate lists and QR codes and have them save to local storage and have them ready when you next start up the app.
+An app that you can generate lists of QR codes that save to local storage and have them ready when you next start up the app.
 
 # How to use
 
@@ -31,3 +31,5 @@ npm run build mac
 # For linux OS
 npm run build linux
 ```
+
+Look inside the dist folder for a folder with your OS in the title
