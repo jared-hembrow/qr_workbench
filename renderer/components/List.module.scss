@@ -55,6 +55,11 @@ font-size: 1.2rem;
 .edit-input {
     padding: 2px;
     margin-right: 5px;
+    border:2px solid $blue-magenta;
+    border-radius: 4px;
+}
+.edit-input:focus-visible {
+    outline-color: $blue-magenta;
 }
 .submit-edit {
     padding: 3px;

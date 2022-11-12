@@ -2,9 +2,8 @@ import React, { useContext, useState } from "react";
 import CTX, { CodeItem } from "./CTX";
 // style
 import style from "./List.module.scss";
-type Props = {};
 
-const List = (props: Props) => {
+const List = () => {
 	const { state, dispatch } = useContext(CTX);
 	const [editValue, setEditValue] = useState<string>("");
 	const [editTitleValue, setEditTitleValue] = useState<string>("");
@@ -32,7 +31,7 @@ const List = (props: Props) => {
 						value={editValue}
 						onChange={(e) => setEditValue(e.target.value)}
 						placeholder="Enter Code"
-						className={style["edit-input"]}
+						className={`input-type ${style["edit-input"]}`}
 					/>
 					<button className={`${style["submit-edit"]}`}>
 						<i
@@ -73,7 +72,7 @@ const List = (props: Props) => {
 						value={editTitleValue}
 						onChange={(e) => setEditTitleValue(e.target.value)}
 						placeholder="Enter Title"
-						className={style["edit-input"]}
+						className={`input-type ${style["edit-input"]}`}
 					/>
 					<button className={`${style["submit-edit"]}`}>
 						<i

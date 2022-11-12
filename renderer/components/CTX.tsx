@@ -7,8 +7,11 @@ interface CTXState {
 	};
 	codeList: CodeItem[];
 	selected: CodeItem | null;
+	selectedIdx: number | null;
 	edit: CodeItem | null;
 	editTitle: CodeItem | null;
+	play: boolean;
+	slideShowDuration: number;
 }
 export type CodeItem = {
 	id: string;
@@ -30,7 +33,14 @@ type CTXActionType =
 	| "ON_CANCEL_EDIT"
 	| "ON_EDIT_TITLE"
 	| "ON_SUBMIT_EDIT_TITLE"
-	| "ON_CANCEL_EDIT_TITLE";
+	| "ON_CANCEL_EDIT_TITLE"
+	| "ON_CLICK_PREV"
+	| "ON_CLICK_NEXT"
+	| "ON_PLAY"
+	| "ON_STOP"
+	| "ON_CHANGE_SLIDE_SHOW_DURATION"
+	| "ON_ENTER_INDEX";
+
 interface CTXValue {
 	state: CTXState;
 	dispatch: (action: CTXAction) => void;
@@ -49,8 +59,11 @@ const initialState: CTXState = {
 	},
 	codeList: [],
 	selected: null,
+	selectedIdx: -1,
 	edit: null,
 	editTitle: null,
+	play: false,
+	slideShowDuration: 1000,
 };
 const CTX = createContext<CTXValue>({
 	state: initialState,
@@ -77,7 +90,6 @@ export const CTXProvider = ({ children }: { children: JSX.Element }) => {
 		switch (action.type) {
 			case "INIT_APP":
 				await ipcRenderer.invoke("read-db").then((result) => {
-					console.log("read? ", result);
 					dispatch({ codeList: JSON.parse(result).codes });
 				});
 				break;
@@ -101,7 +113,10 @@ export const CTXProvider = ({ children }: { children: JSX.Element }) => {
 				writeDB(addToList);
 				break;
 			case "ON_CLICK_CODE":
-				dispatch({ selected: action.payload });
+				const itemIdx = state.codeList.findIndex(
+					(item: CodeItem) => item.id === action.payload.id
+				);
+				dispatch({ selected: action.payload, selectedIdx: itemIdx });
 				break;
 			case "ON_DELETE":
 				console.log(action);
@@ -162,6 +177,48 @@ export const CTXProvider = ({ children }: { children: JSX.Element }) => {
 				].title = action.payload.value;
 				dispatch({ codeList: tempList, editTitle: null, edit: null });
 				writeDB(tempList);
+				break;
+
+			case "ON_CLICK_PREV":
+				if (state.selectedIdx < 1) break;
+				const prevIdx = state.selectedIdx - 1;
+				dispatch({ selected: state.codeList[prevIdx], selectedIdx: prevIdx });
+				break;
+			case "ON_CLICK_NEXT":
+				if (state.selectedIdx === state.codeList.length - 1) break;
+				const nextIdx = state.selectedIdx + 1;
+				dispatch({ selected: state.codeList[nextIdx], selectedIdx: nextIdx });
+				break;
+			case "ON_ENTER_INDEX":
+				dispatch({
+					selected: state.codeList[action.payload],
+					selectedIdx: action.payload,
+				});
+				break;
+			case "ON_PLAY":
+				dispatch({ play: true });
+				break;
+			case "ON_STOP":
+				dispatch({ play: false });
+				break;
+			case "ON_CHANGE_SLIDE_SHOW_DURATION":
+				if (action.payload.type === "inc") {
+					if (!state.slideShowDuration) {
+						dispatch({ slideShowDuration: 1000 });
+						break;
+					}
+					dispatch({ slideShowDuration: state.slideShowDuration + 1000 });
+				}
+				if (action.payload.type === "dec") {
+					if (!state.slideShowDuration) {
+						dispatch({ slideShowDuration: 1000 });
+						break;
+					}
+					if (state.slideShowDuration <= 1000) break;
+					dispatch({ slideShowDuration: state.slideShowDuration - 1000 });
+				}
+				if (action.payload.type === "enter")
+					dispatch({ slideShowDuration: action.payload.value });
 				break;
 			default:
 				break;
