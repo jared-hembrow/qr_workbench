@@ -7,7 +7,7 @@ An app that you can generate lists of QR codes that save to local storage and ha
 First clone the repository
 
 ```bash
-    git clone https://github.com/pyrokat17/qr_workbench.git](https://github.com/jared-hembrow/qr_workbench.git
+    https://github.com/jared-hembrow/qr_workbench.git
 ```
 
 Install dependencies
