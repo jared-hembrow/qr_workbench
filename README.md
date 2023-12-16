@@ -1,7 +1,6 @@
 # qr_workbench
 
-An app that you can generate lists of QR codes that save to local storage and have them ready when you next start up the app.
-
+An Electron-based desktop application crafted with TypeScript and React.js, this tool simplifies the generation and storage of QR codes on your local machine. It efficiently creates a list of QR codes for various uses. Built for ease of use and flexibility, it's a handy addition to your toolkit for managing QR codes locally.
 # How to use
 
 First clone the repository
